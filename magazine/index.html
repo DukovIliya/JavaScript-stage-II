@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Интернет-магазин</title>
+    <link rel="stylesheet" href="style.css?220120211800">
+    <script src="https://kit.fontawesome.com/c4f3176c79.js" crossorigin="anonymous"></script>
+    <script src="addition.js"></script>
+</head>
+
+<body>
+    <section class="cart-form hide">
+        <button class="cart-btn-close" onclick="cartClose()">X</button>
+        <style></style>
+        <h3>Ваша корзина</h3>
+        <button id="cart-btn-clear">Очистить</button>
+        <div class="cart-info"></div>
+        <div class="cart-list">
+        </div>
+
+    </section>
+
+    <header>
+        <h1>Магазин картинок. Студент Дюков Илья</h1>
+        <button title="Нажми на меня!" class="btn-cart" type="button" onclick="cartClose()"><i
+                class="fas fa-shopping-cart cart"></i><br>Корзина</button>
+    </header>
+    <main>
+        <div class="products"></div>
+    </main>
+    <script src="main.js"></script>
+</body>
+
+
+</html>
