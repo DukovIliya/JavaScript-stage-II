@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Домашнее задание №4. Дюков Илья</h1>
+    <script>
+        const text = `One: 'Hi Mary.' Two: 'Oh, hi.'
+                      One: 'How are you doing?'
+                      Two: 'I'm doing alright. How about you?'
+                      One: 'Not too bad. The weather is great isn't it?'
+                      Two: 'Yes. It's absolutely beautiful today.'
+                      One: 'I wish it was like this more frequently.'
+                      Two: 'Me too.'
+                      One: 'So where are you going now?'
+                      Two: 'I'm going to meet a friend of mine at the department store'
+                      One: 'Going to do a little shopping?'
+                      Two: 'Yeah, I have to buy some presents for my parents.'
+                      One: 'What's the occasion?'
+                      Two: 'It's their anniversary.'
+                      One: 'That's great. Well, you better get going. You don't want to be late.'
+                      Two: 'I'll see you next time.'
+                      One: 'Sure.' Bye.'`;
+
+        //Придумать шаблон, который заменяет одинарные кавычки на двойные.
+        let regExp = /'/gm;
+        let text_1 = text.replace(regExp, '"');
+        console.log(text_1);
+
+        //Улучшить шаблон так, чтобы в конструкциях типа aren't одинарная кавычка не заменялась на двойную.
+        regExp = /\B'|'\B/igm;
+        text_1 = text.replace(regExp, '"');
+        console.log(text_1);
+
+        `*Создать форму обратной связи с полями: Имя, Телефон, E-mail, текст, кнопка Отправить. При нажатии на кнопку Отправить произвести валидацию полей следующим образом:
+            a. Имя содержит только буквы.
+            b. Телефон имеет вид +7(000)000-0000.
+            c. E-mail имеет вид mymail@mail.ru, или my.mail@mail.ru, или my-mail@mail.ru.`
+
+        let fullname = 'Иван`D';
+        regExp = /^[a-zа-яё`]+$/i;
+        let res = (regExp.test(fullname));
+        res ? console.log('Ошибок в имени нет') : console.log(`Ошибка в имени ${fullname}`);
+
+        let phone = '+7(434)444-333';
+        regExp = /^\+7\([0-9]{3}\)\d{3}-\d{4}$/;
+        res = (regExp.test(phone));
+        res ? console.log('Ошибок в телефоне нет') : console.log(`Телефон введен некорректно ${phone}`);
+
+        let email = 'du-k@uuu.ru';
+        regExp = /^([\w\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})$/i;
+        res = (regExp.test(email));
+        res ? console.log('E-mail корректен') : console.log(`E-mail введен с ошибкой ${email}`);
+    </script>
+</body>
+
+</html>
