@@ -2,53 +2,18 @@ const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-a
 //const API = 'http://dukovs.ru/JS2/JSON/';
 //https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/catalogData.json
 
-
-//------------------------------------------------------
-let getRequest_callback = (url, cb) => {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4) {
-            if (xhr.status !== 200) { console.log('Error'); }
-            else {
-                cb(xhr.responseText);
-            }
-        }
-    }
-    xhr.send();
-}
-
-let getRequest_promise = (url) => {
-    return new Promise((resolve, reject) => {
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', url, true);
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4) {
-                if (xhr.status !== 200) reject(xhr.status);
-                else resolve(xhr.responseText);
-            }
-        }
-        xhr.send();
-    });
-
-}
-
-//----------------------------------------------
-
-
 class ProductList {
     #goods;
-    #allProducts;
+    #filterProducts;
     constructor(container = '.products') {
         this.container = container;
         //this._googs = [];
         this.#goods = [];
-        this.#allProducts = [];
-        //this.#fetchGoods();
-        //this.#render();
+        this.#filterProducts = [];
+        this.#events()
         this.#getProducts().then((data) => {
-            console.log(data);
             this.#goods = [...data];
+            this.#filterProducts = [...this.#goods];
             this.#render();
         });
     }
@@ -59,43 +24,32 @@ class ProductList {
             .catch((error) => { console.log(`Ошибка: ${error}`); });
     }
 
-    /*
-        #fetchGoods() {
-            //через callback
-            getRequest_callback(`${API}catalogData.json`, (data) => {
-                console.log(data);
-                this.#goods = JSON.parse(data);
-                console.log(this.#goods);
-                this.#render();
-            })
-    
-    
-            //домашнее задание через промисы
-            getRequest_promise(`${API}catalogData.json`).then((responseText) => {
-                console.log(responseText);
-                this.#goods = JSON.parse(responseText);
-                this.#goods = this.#goods.concat(JSON.parse(data, (key, value) => {
-                if (key === "id_product") value = value + 9999999;
-                if (key === "product_name") value = value + '_2';
-                if (key === "price") value = value * 2;
-                return value;
-            }));
 
-                console.log(this.#goods);
-                this.#render();
-            }).catch((error) => { console.log(`Ошибка. Статус: ${error}`); })
-        }
-    }
-    */
     #render() {
         const block = document.querySelector(this.container);
-        for (let product of this.#goods) {
+        block.innerHTML = '';
+        for (let product of this.#filterProducts) {
             const productObj = new ProductItem(product);
-            this.#allProducts.push(productObj);
             block.insertAdjacentHTML('afterBegin', productObj.render());
             productObj.setEvents();
         }
     }
+    #events() {
+        let searchBtn = document.getElementsByClassName('search-btn')[0];
+        searchBtn.addEventListener('click', () => {
+            let searchInp = document.getElementsByClassName('goods-search')[0];
+            let stext = '';
+            if (searchInp) stext = searchInp.value;
+            this.searshInput(stext);
+        });
+    }
+    searshInput(text) {
+        console.log(text);
+        const regexp = new RegExp(text, 'i');
+        this.#filterProducts = this.#goods.filter(good => regexp.test(good.product_name));
+        this.#render();
+    };
+
 }
 
 
@@ -120,7 +74,6 @@ class ProductItem {
     setEvents() {
         let byBtn = document.getElementsByClassName('by-btn')[0];
         byBtn.addEventListener('click', event => {
-            //let goods = products.getGoogsById(+event.target.dataset.id);/*переписать неправильно. не нужно лазить в список товаров*/
             let goods = {
                 id: this.id,
                 title: this.title,
@@ -132,7 +85,6 @@ class ProductItem {
 
     }
 }
-
 
 
 class Cart {
