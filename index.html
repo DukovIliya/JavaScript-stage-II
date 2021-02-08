@@ -3,60 +3,61 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Интернет-магазин</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <h1>Домашнее задание №4. Дюков Илья</h1>
-    <script>
-        const text = `One: 'Hi Mary.' Two: 'Oh, hi.'
-                      One: 'How are you doing?'
-                      Two: 'I'm doing alright. How about you?'
-                      One: 'Not too bad. The weather is great isn't it?'
-                      Two: 'Yes. It's absolutely beautiful today.'
-                      One: 'I wish it was like this more frequently.'
-                      Two: 'Me too.'
-                      One: 'So where are you going now?'
-                      Two: 'I'm going to meet a friend of mine at the department store'
-                      One: 'Going to do a little shopping?'
-                      Two: 'Yeah, I have to buy some presents for my parents.'
-                      One: 'What's the occasion?'
-                      Two: 'It's their anniversary.'
-                      One: 'That's great. Well, you better get going. You don't want to be late.'
-                      Two: 'I'll see you next time.'
-                      One: 'Sure.' Bye.'`;
-
-        //Придумать шаблон, который заменяет одинарные кавычки на двойные.
-        let regExp = /'/gm;
-        let text_1 = text.replace(regExp, '"');
-        console.log(text_1);
-
-        //Улучшить шаблон так, чтобы в конструкциях типа aren't одинарная кавычка не заменялась на двойную.
-        regExp = /\B'|'\B/igm;
-        text_1 = text.replace(regExp, '"');
-        console.log(text_1);
-
-        `*Создать форму обратной связи с полями: Имя, Телефон, E-mail, текст, кнопка Отправить. При нажатии на кнопку Отправить произвести валидацию полей следующим образом:
-            a. Имя содержит только буквы.
-            b. Телефон имеет вид +7(000)000-0000.
-            c. E-mail имеет вид mymail@mail.ru, или my.mail@mail.ru, или my-mail@mail.ru.`
-
-        let fullname = 'Иван`D';
-        regExp = /^[a-zа-яё`]+$/i;
-        let res = (regExp.test(fullname));
-        res ? console.log('Ошибок в имени нет') : console.log(`Ошибка в имени ${fullname}`);
-
-        let phone = '+7(434)444-333';
-        regExp = /^\+7\([0-9]{3}\)\d{3}-\d{4}$/;
-        res = (regExp.test(phone));
-        res ? console.log('Ошибок в телефоне нет') : console.log(`Телефон введен некорректно ${phone}`);
-
-        let email = 'du-k@uuu.ru';
-        regExp = /^([\w\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})$/i;
-        res = (regExp.test(email));
-        res ? console.log('E-mail корректен') : console.log(`E-mail введен с ошибкой ${email}`);
-    </script>
+    <div id="app">
+        <header>
+            <div class="logo">Интернет-магазин</div>
+            <div class="cart">
+                <form action="#" class="search-form">
+                    <input type="text" class="search-field" v-model="searchLine">
+                    <button class="btn-search" type="submit" v-on:click="FilterGoods()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+                <button class="btn-cart" type="button" v-on:click="isVisibleCart=!isVisibleCart">Корзина</button>
+                <div class="cart-block" :class="{invisible:isVisibleCart}">
+                    <h2 class="prod-is-empty" v-if="!cart.length">«Нет данных»</h2>
+                    <div class="cart-item" data-id="123" v-for="product of cart" :key="product.id_product">
+                        <div class="product-bio">
+                            <img class="cart-img" :src="product.imageUrl" alt="Some image">
+                            <div class="product-desc">
+                                <p class="product-title">{{product.product_name}}</p>
+                                <p class="product-quantity">Количество: {{product.quantity}}</p>
+                                <p class="product-single-price">{{product.price}} за ед.</p>
+                            </div>
+                        </div>
+                        <div class="right-block">
+                            <p class="product-price">{{product.price*product.quantity}} ₽</p>
+                            <button class="del-btn" data-id="123" @click="removeProduct(product)">×</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main>
+            <h2 class="prod-is-empty" v-if="!filterProducts.length">«Нет данных»</h2>
+            <div class="products">
+                <div class="product-item" v-for="product of filterProducts" :key="product.id_product">
+                    <img :src="product.imageUrl" alt="Some img">
+                    <div class="desc">
+                        <h3>{{product.product_name}}</h3>
+                        <p>{{product.price}}₽</p>
+                        <button class="buy-btn" @click="addProduct(product)">Купить</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js"
+        integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>
