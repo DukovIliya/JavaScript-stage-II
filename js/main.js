@@ -23,37 +23,27 @@ const app = new Vue({
         addProduct(product) {
             let find = this.cart.find(good => product.id_product === good.id_product);
             if (find) {
-                let index = this.cart.indexOf(find);
-                let element = this.cart[index];
-                element.quantity++;
-                this.cart.splice(index, 1, element);
+                find.quantity++;
             }
             else {
-                let prod = product;
-                prod.quantity = 1;
+                let prod = {};
+                Object.assign(prod, product, { quantity: 1 });
                 this.cart.push(prod);
             }
         },
         removeProduct(product) {
             let find = this.cart.find(good => product.id_product === good.id_product);
             if (find.quantity > 1) {
-                let index = this.cart.indexOf(find);
-                let element = this.cart[index];
-                element.quantity--;
-                this.cart.splice(index, 1, element);
-                //find.quantity--
-                //this.cart[this.cart.indexOf(find)].quantity--;
+                find.quantity--
             }
             else {
                 this.cart.splice(this.cart.indexOf(find), 1);
             }
-
         },
 
         FilterGoods() {
             const regexp = new RegExp(this.searchLine, 'i');
             this.filterProducts = this.products.filter(good => regexp.test(good.product_name));
-            console.log(this.filterProducts);
         },
     },
     beforeCreate() {
@@ -66,9 +56,7 @@ const app = new Vue({
                     el.imageUrl = `${this.imgCatalog}?${el.id_product}`
                     this.products.push(el);
                 }
-
                 this.filterProducts = [...this.products];
-                console.log(this.filterProducts);
             });
     },
     beforeMount() {
