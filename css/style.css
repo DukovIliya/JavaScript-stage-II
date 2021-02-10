@@ -33,12 +33,6 @@ button:focus{
 .btn-cart, .logo{
     align-self: center;
 }
-/*.products {*/
-/*display: flex;*/
-/*justify-content: space-between;*/
-/*flex-wrap: wrap;*/
-/*padding: 40px 80px;*/
-/*}*/
 .products{
     column-gap: 30px;
     display: grid;
@@ -67,6 +61,7 @@ img {
     padding: 15px
 }
 .cart{
+    display: flex;
     position: relative;
 }
 .cart-block{
@@ -169,11 +164,27 @@ img {
     border: none;
     border-bottom: 2px solid #fafafa;
 }
-/*добавил*/
-.prod-is-empty{
+
+/*добавил стили для окна ошибки*/
+.errors{
+    position: absolute;
+    z-index: 100;
+    width: 400px;
+    height: 100px;
+    background-color: red;
+    color: white;
+    font-size: 1em;
+    border-radius: 5px;
     text-align: center;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    display: table;
+    vertical-align: middle;
 }
-.cart-img{
-    width: 30%;
-    
+.errors div{
+    display: table-cell;
+    vertical-align: middle;
 }
